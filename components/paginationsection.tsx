@@ -1,4 +1,4 @@
-"use effect"
+"use client"
 import {
   Pagination,
   PaginationContent,
@@ -8,7 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 export function PaginationSection({
   totalPages,
   itemsPerPage,
@@ -22,13 +22,24 @@ export function PaginationSection({
   setCurrentPage: Function,
   currentItems: Array<any> // Provide a type argument for the Array type
 }) {
-  const pagesToShow = 5; // Number of pages to show in the pagination bar
+  const [pagesToShow, setPagesToShow] = useState(5);
+
+  useEffect(() => {
+    // Redirect to page 1 if there are no items to show
+    if (currentItems.length <20 ) {
+      setPagesToShow(1);
+    }
+  }, [currentItems]);
+  
+  
+   // Number of pages to show in the pagination bar
   const totalPagesArray = Array.from({ length: totalPages }, (_, i) => i + 1);
   const indexOfCurrentPage = currentPage - 1;
 
   const startIndex = Math.max(0, indexOfCurrentPage - Math.floor(pagesToShow / 2));
   const endIndex = Math.min(totalPagesArray.length - 1, startIndex + pagesToShow - 1);
   const visiblePages = totalPagesArray.slice(startIndex, endIndex + 1);
+  
 
   useEffect(() => {
     // Redirect to page 1 if there are no items to show

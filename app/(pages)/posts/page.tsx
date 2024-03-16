@@ -26,7 +26,7 @@ import { useEffect, useState } from "react"
 const page=()=> {
 
 
-  const [patientData, setPatientData] = useState(null);
+  const [postapidata, setPostApidata] = useState(null);
   const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
   
 
@@ -35,7 +35,7 @@ const page=()=> {
       try {
         const response = await axios.get(apiUrl);
         if (response.status === 200) {
-          setPatientData(response.data);
+          setPostApidata(response.data);
         } else {
           console.error('Failed to fetch patient data:', response.status, response.statusText);
         }
@@ -65,7 +65,7 @@ const page=()=> {
             <div className="space-y-1">
             <div className="flex flex-col items-center justify-center ">
       <span className="text-4xl font-bold mb-6">Photos</span>
-      <ClientPagination data={patientData}/>
+      <ClientPagination data={postapidata} />
     </div>
             </div>
             

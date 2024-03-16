@@ -17,23 +17,46 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import {useDispatch, useSelector } from "react-redux";
+import { selectLikedsSaved, deleteLiked, createLiked } from "../../feature/Imagestore";
+
 
 import ClientPagination from "@/components/client-pagination";
 import { useEffect, useState } from "react"
 
+interface DataItem {
+  albumId: number;
+  id: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+  
+}
+interface LikedSavedItem {
+  id: number;
+  title: string;
+  liked?: boolean;
+  saved?: boolean;
+}
+
+
+
 const page=()=> {
+  const dispatch = useDispatch();
 
-
-  const [patientData, setPatientData] = useState(null);
+  const [wholeLikedSavedData, setwholeLikedSavedData] = useState<LikedSavedItem[]>([]); // Initialize wholeLikedSavedData as an empty array 
+  const [apiData, setApiData] = useState<DataItem>();
   const apiUrl = 'https://jsonplaceholder.typicode.com/photos';
   
-
+  const LikedSavedData = useSelector(selectLikedsSaved);
+  
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(apiUrl);
         if (response.status === 200) {
-          setPatientData(response.data);
+          setApiData(response.data);
         } else {
           console.error('Failed to fetch patient data:', response.status, response.statusText);
         }
@@ -45,6 +68,27 @@ const page=()=> {
     fetchData();
   }, []);
 
+
+  
+
+  // Fix: Update the type of wholeLikedSavedData and initialize it as an empty array
+
+  
+
+  //now we have find the subset of LikedSavedData from apiData
+  
+useEffect(() => {
+    const  filteredData =  Array.isArray(apiData) ? apiData.filter((apItem: DataItem) => {
+      return LikedSavedData.some((likedItem: { id: number; liked: any; }) => likedItem.id === apItem.id && likedItem.liked);
+    })
+     : [];
+  setwholeLikedSavedData(filteredData);
+
+  }, [apiData, LikedSavedData]);
+
+  
+  
+  //create a function to save the liked data
   
   return (
     <div className="flex justify-center items-center w-[1200px] ml-20">
@@ -55,43 +99,38 @@ const page=()=> {
         <TabsTrigger value="liked_pictures">liked_pictures</TabsTrigger>
       </TabsList>
       <TabsContent value="pictures">
-        <Card>
-          <CardHeader>
-            
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-            <div className="flex flex-col items-center justify-center ">
-      <span className="text-4xl font-bold mb-6">Photos</span>
-      <ClientPagination data={patientData}/>
-    </div>
+                <Card>
+                  <CardHeader>
+                    
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="space-y-1">
+                    <div className="flex flex-col items-center justify-center ">
+              <span className="text-4xl font-bold mb-6">Photos</span>
+              <ClientPagination data={apiData} />
             </div>
-            
-          </CardContent>
-        </Card>
+                    </div>
+                    
+                  </CardContent>
+                </Card>
       </TabsContent>
       <TabsContent value="liked_pictures">
-        <Card>
-          <CardHeader>
-            <CardTitle>liked_pictures</CardTitle>
-            <CardDescription>
-              Change your liked_pictures here. After saving, you'll be logged out.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="current">Current liked_pictures</Label>
-              <Input id="current" type="liked_pictures" />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="new">New liked_pictures</Label>
-              <Input id="new" type="liked_pictures" />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button>Save liked_pictures</Button>
-          </CardFooter>
-        </Card>
+            <Card>
+              <CardHeader>
+               
+              </CardHeader>
+              <CardContent className="space-y-2">
+              <div className="space-y-1">
+                <div className="flex flex-col items-center justify-center ">
+          <span className="text-4xl font-bold mb-6">liked photos</span>
+
+         {wholeLikedSavedData.length === 0 ? 
+         <span className="text-4xl font-bold mb-6">No liked photos</span> : <ClientPagination data={wholeLikedSavedData} />}
+          
+        </div>
+                </div>
+              </CardContent>
+            </Card>
       </TabsContent>
     </Tabs>
     </div>
