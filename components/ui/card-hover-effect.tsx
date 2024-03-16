@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "./button";
 
-import { useSelector } from 'react-redux';
-import { isIdLiked } from '../../app/feature/Imagestore';
-import { RootState } from '../../app/store';
 import LikeButton from "./LikeorUnLike";
+import SaveorUnSave from "./SaveorUnsave";
 interface DataItem {
   id: number;
   userId?: number;
@@ -81,9 +79,7 @@ export const HoverEffect = ({
             <CardTitle>{item.title}</CardTitle>
 
 
-            <Button  className="mt-4">
-              save
-            </Button>
+            <SaveorUnSave itemId={item.id} title={item.title} />
             <LikeButton itemId={item.id} title={item.title}  />
           </Card>
         </div>

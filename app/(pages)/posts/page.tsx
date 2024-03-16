@@ -19,16 +19,38 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import {useDispatch, useSelector } from "react-redux";
+import { selectAllPosts } from "@/app/feature/Postsstore";
 
 import ClientPagination from "@/components/client-pagination";
 import { useEffect, useState } from "react"
 
+
+interface DataItem {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+  
+}
+
+interface LikedSavedItem {
+  id: number;
+  title: string;
+  liked?: boolean;
+  saved?: boolean;
+}
+
+
+
 const page=()=> {
 
 
-  const [postapidata, setPostApidata] = useState(null);
+  const [postapidata, setPostApidata] = useState<DataItem>();
   const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
-  
+  const [wholeLikedSavedData, setwholeLikedSavedData] = useState<LikedSavedItem[]>([]);
+
+  const LikedSavedData = useSelector(selectAllPosts);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +69,16 @@ const page=()=> {
     fetchData();
   }, []);
 
+
+  useEffect(() => {
+    const filteredData = Array.isArray(postapidata) ? postapidata.filter((apItem: DataItem) => {
+      return LikedSavedData.some(likedItem => likedItem.id === apItem.id && likedItem.liked);
+    }) : [];
+    setwholeLikedSavedData(filteredData);
+  }, [postapidata, LikedSavedData]);
+
+  
+
   
   return (
     <div className="flex justify-center items-center w-[1200px] ml-20">
@@ -64,7 +96,7 @@ const page=()=> {
           <CardContent className="space-y-2">
             <div className="space-y-1">
             <div className="flex flex-col items-center justify-center ">
-      <span className="text-4xl font-bold mb-6">Photos</span>
+      <span className="text-4xl font-bold mb-6">Posts</span>
       <ClientPagination data={postapidata} />
     </div>
             </div>
@@ -75,19 +107,15 @@ const page=()=> {
       <TabsContent value="liked_pictures">
         <Card>
           <CardHeader>
-            <CardTitle>liked_pictures</CardTitle>
-            <CardDescription>
-              Change your liked_pictures here. After saving, you'll be logged out.
-            </CardDescription>
+           
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="current">Current liked_pictures</Label>
-              <Input id="current" type="liked_pictures" />
+            <div className="flex flex-col items-center justify-center ">
+              <span className="text-4xl font-bold mb-6">Photos</span>
+              {wholeLikedSavedData.length === 0 ? 
+         <span className="text-4xl font-bold mb-6">No liked photos</span> : <ClientPagination data={wholeLikedSavedData} />}
             </div>
-            <div className="space-y-1">
-              <Label htmlFor="new">New liked_pictures</Label>
-              <Input id="new" type="liked_pictures" />
             </div>
           </CardContent>
           <CardFooter>

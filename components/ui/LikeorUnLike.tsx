@@ -21,7 +21,7 @@ const LikeButton =({ itemId,title }:props) => {
 
   const onDeleteLikedClick = (id: number) => {
     dispatch(deleteLiked(id));
-    setLikedData(likeddata.filter((item: { id: number; }) => item.id !== id));
+    setLikedData(likeddata.filter((item) => item.id !== id));
     // setLikedData(likeddata.filter((item) => item.id !== id));
 
   }

@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
-import LikedsSavedsSliceReducer from "./feature/Imagestore";
+
+import ImagesSlice from "./feature/Imagestore";
 import { loadState } from "./browser-storage";
-import { PostsSlice } from "./feature/Postsstore";
+import  PostsSlice  from "./feature/Postsstore";
 
 const reducers = combineReducers({
-  LikedsSaveds: LikedsSavedsSliceReducer,
+  Pictures: ImagesSlice,
   PostsSlice: PostsSlice,
 });
 

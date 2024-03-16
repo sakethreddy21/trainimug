@@ -4,7 +4,8 @@ import type { RootState } from "../store";
 export interface Post {
   id?: number;
   title: string;
-  content: string;
+  liked?: boolean;
+  saved?: boolean;
 }
 
 export interface PostsState {
@@ -19,29 +20,43 @@ export const PostsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    addPost: (state, action: PayloadAction<Post>) => {
-      state.posts.push(action.payload);
+    likePost: (state, action: PayloadAction<Post>) => {
+      const {id }= action.payload;
+        const existingItem = state.posts.find(item => item.id === id && item.liked);
+        if (!existingItem) {
+          state.posts.push({ ...action.payload });
+        }
     },
-    deletePost: (state, action: PayloadAction<number>) => {
+    savePost: (state, action: PayloadAction<Post>) => {
+      const {id }= action.payload;
+        const existingItem = state.posts.find(item => item.id === id && item.saved);
+        if (!existingItem) {
+          state.posts.push({ ...action.payload });
+        }
+    },
+    unLikePost: (state, action: PayloadAction<number>) => {
       const idToDelete = action.payload;
-      state.posts = state.posts.filter(post => post.id !== idToDelete);
+      state.posts = state.posts.filter(item => item.id !== idToDelete || !item.liked);
     },
-    updatePost: (state, action: PayloadAction<Post>) => {
-      const updatedPost = action.payload;
-      const index = state.posts.findIndex(post => post.id === updatedPost.id);
-      if (index !== -1) {
-        state.posts[index] = updatedPost;
-      }
+    unSavePost: (state, action: PayloadAction<number>) => {
+      const idToDelete = action.payload;
+      state.posts = state.posts.filter(item => item.id !== idToDelete || !item.saved);
     },
+    
+    
   },
 });
 
-export const { addPost, deletePost, updatePost } = PostsSlice.actions;
+export const { likePost, unLikePost, savePost, unSavePost } = PostsSlice.actions;
 
-export const selectAllPosts = (state: RootState) => state.posts.posts;
+export const selectAllPosts = (state: RootState) => state.PostsSlice.posts;
 
-export const selectPostById = (state: RootState, postId: number) => {
-  return state.posts.posts.find((post: { id: number; }) => post.id === postId);
-};
+export const selectLikedPosts = (state: RootState) => state.PostsSlice.posts.filter((post: { liked?: boolean }) => post.liked);
+
+export const selectSavedPosts = (state: RootState) => state.PostsSlice.posts.filter((post: { saved?: boolean }) => post.saved);
+
+export const isPostLiked = (state: RootState, postId: number): boolean => state.PostsSlice.posts.some((post: Post) => post.id === postId && post.liked);
+
+export const isPostSaved = (state: RootState, postId: number): boolean => state.PostsSlice.posts.some((post: Post) => post.id === postId && post.saved);
 
 export default PostsSlice.reducer;

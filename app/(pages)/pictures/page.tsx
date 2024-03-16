@@ -79,7 +79,7 @@ const page=()=> {
   
 useEffect(() => {
     const  filteredData =  Array.isArray(apiData) ? apiData.filter((apItem: DataItem) => {
-      return LikedSavedData.some((likedItem: { id: number; liked: any; }) => likedItem.id === apItem.id && likedItem.liked);
+      return LikedSavedData.some(likedItem => likedItem.id === apItem.id && likedItem.liked);
     })
      : [];
   setwholeLikedSavedData(filteredData);

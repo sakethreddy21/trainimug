@@ -18,8 +18,8 @@ const initialState: LikedsSavedsState = {
   Likeds: [],
 };
 
-export const LikedsSavedsSlice = createSlice({
-  name: "LikedsSaveds",
+export const ImagesSlice = createSlice({
+  name: "Pictures",
  
   initialState,
   reducers: {
@@ -62,24 +62,24 @@ export const LikedsSavedsSlice = createSlice({
   },
 });
 
-export const { createLiked,createSaved, deleteLiked, deleteSaved } = LikedsSavedsSlice.actions;
+export const { createLiked,createSaved, deleteLiked, deleteSaved } = ImagesSlice.actions;
 
-export const selectLikedsSaved = (state: RootState) => state.LikedsSaveds.Likeds;
+export const selectLikedsSaved = (state: RootState) => state.Pictures.Likeds;
 
-export const selectLikedData = (state: RootState) => state.LikedsSaveds.Likeds.filter((item: { liked: boolean; }) => item.liked === true);
-export const selectSavedData = (state: RootState) => state.LikedsSaveds.Likeds.filter((item: { saved: boolean; }) => item.saved === true);
+export const selectLikedData = (state: RootState) => state.Pictures.Likeds.filter((item: { liked?: boolean }) => item.liked === true);
+export const selectSavedData = (state: RootState) => state.Pictures.Likeds.filter((item: { saved?: boolean }) => item.saved === true);
 
 export const isIdLiked = (state: RootState, id: number): boolean => {
   const likedData = selectLikedData(state);
-  return likedData.some((item: { id: number; }) => item.id === id);
+  return likedData.some((item: LikedSaved) => item.id === id);
 };
 
 export const isIdSaved = (state: RootState, id: number): boolean => {
   const savedData = selectSavedData(state);
-  return savedData.some((item: { id: number; }) => item.id === id);
+  return savedData.some((item: LikedSaved) => item.id === id);
 };
 
 
 
 
-export default LikedsSavedsSlice.reducer;
+export default ImagesSlice.reducer;

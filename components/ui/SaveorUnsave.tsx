@@ -1,35 +1,39 @@
-import { useSelector } from 'react-redux';
-import { isIdLiked } from '../../app/feature/Imagestore';
+import { useDispatch, useSelector } from 'react-redux';
+import { isIdSaved } from '../../app/feature/Imagestore';
 import { RootState } from '../../app/store';
 import { Button } from './button';
+import { deleteSaved, createSaved } from '../../app/feature/Imagestore';
+import { selectSavedData } from '../../app/feature/Imagestore';
+import { useState } from 'react';
 
 interface props {
   itemId: number;
   title:string
-  onLikeClick?: (id: number, title:string) => void;
-  onDeleteLikedClick: (id: number) => void;
+
 }
 
 
 
-const LikeButton =({ itemId,title, onDeleteLikedClick,onLikeClick }:props) => {
+const SaveorUnSave =({ itemId,title}:props) => {
+  const saveddata = useSelector(selectSavedData);
+  const [savedData, setSavedData] = useState(saveddata);
+  const dispatch = useDispatch();
 
-  const handleDeleteClick = (id: number) => {
-    onDeleteLikedClick(id);
-    };
-  const isLiked = useSelector((state: RootState) => isIdLiked(state, itemId));
-
-  const handleLikeClick = (id: number, title: string) => {
-    if (onLikeClick) {
-      onLikeClick(id, title);
-    }
+  const onDeleteSavedClick = (id: number) => {
+    dispatch(deleteSaved(id));
+    setSavedData(saveddata.filter((item) => item.id !== id));
   }
-
+  const isSaved = useSelector((state: RootState) => isIdSaved(state, itemId));
+  const onSaveClick = (id: number, title: string) => {
+    dispatch(createSaved({ id, title, saved: true }));
+  }
   return (
-    <Button onClick={(e) => isLiked ? handleDeleteClick(itemId) : handleLikeClick(itemId, title)}>
-      {isLiked ? 'Unlike' : 'like'}
-    </Button>
+    <div>
+      <Button onClick={(e) => isSaved ? onDeleteSavedClick(itemId) : onSaveClick(itemId, title)}>
+        {isSaved ? 'Unsave' : 'save'}
+      </Button>
+    </div>
   );
 };
 
-export default LikeButton;
+export default SaveorUnSave;
