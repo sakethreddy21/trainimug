@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { isIdSaved } from '../../app/feature/Imagestore';
-import { RootState } from '../../app/store';
-import { Button } from './button';
-import { deleteSaved, createSaved } from '../../app/feature/Imagestore';
-import { selectSavedData } from '../../app/feature/Imagestore';
+import { isIdSaved } from '../../../app/reduxservices/Imagestore';
+import { RootState } from '../../../app/store';
+import { Button } from '../button';
+import { deleteSaved, createSaved } from '../../../app/reduxservices/Imagestore';
+import { selectSavedData } from '../../../app/reduxservices/Imagestore';
 import { useState } from 'react';
 
 interface props {

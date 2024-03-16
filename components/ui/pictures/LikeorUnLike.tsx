@@ -1,15 +1,15 @@
 import { useSelector } from 'react-redux';
-import { isIdLiked } from '../../app/feature/Imagestore';
-import { RootState } from '../../app/store';
-import { Button } from './button';
+import { isIdLiked } from '../../../app/reduxservices/Imagestore';
+import { RootState } from '../../../app/store';
+import { Button } from '../button';
 import { useDispatch } from 'react-redux';
-import { deleteLiked, createLiked, createSaved } from '../../app/feature/Imagestore';
-import { selectLikedData } from '../../app/feature/Imagestore';
+import { deleteLiked, createLiked, createSaved } from '../../../app/reduxservices/Imagestore';
+import { selectLikedData } from '../../../app/reduxservices/Imagestore';
 import { useState } from 'react';
 
 interface props {
   itemId: number;
-  title:string
+  title:string  
 }
 
 

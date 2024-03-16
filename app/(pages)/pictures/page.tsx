@@ -4,13 +4,9 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import {
   Tabs,
   TabsContent,
@@ -18,7 +14,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import {useDispatch, useSelector } from "react-redux";
-import { selectLikedsSaved, deleteLiked, createLiked } from "../../feature/Imagestore";
+import { selectLikedsSaved, deleteLiked, createLiked } from "../../reduxservices/Imagestore";
 
 
 import ClientPagination from "@/components/client-pagination";

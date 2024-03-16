@@ -2,9 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
 
-import ImagesSlice from "./feature/Imagestore";
+import ImagesSlice from "./reduxservices/Imagestore";
 import { loadState } from "./browser-storage";
-import  PostsSlice  from "./feature/Postsstore";
+import  PostsSlice  from "./reduxservices/Postsstore";
 
 const reducers = combineReducers({
   Pictures: ImagesSlice,

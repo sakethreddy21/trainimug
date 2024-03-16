@@ -20,7 +20,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import {useDispatch, useSelector } from "react-redux";
-import { selectAllPosts } from "@/app/feature/Postsstore";
+import { selectAllPosts } from "@/app/reduxservices/Postsstore";
 
 import ClientPagination from "@/components/client-pagination";
 import { useEffect, useState } from "react"
@@ -118,9 +118,7 @@ const page=()=> {
             </div>
             </div>
           </CardContent>
-          <CardFooter>
-            <Button>Save liked_pictures</Button>
-          </CardFooter>
+         
         </Card>
       </TabsContent>
     </Tabs>

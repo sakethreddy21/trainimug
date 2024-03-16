@@ -4,8 +4,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "./button";
 
-import LikeButton from "./LikeorUnLike";
-import SaveorUnSave from "./SaveorUnsave";
+import LikeButton from "./pictures/LikeorUnLike";
+import SaveorUnSave from "./pictures/SaveorUnsave";
+
+import  PicLikeorUnLike from "./posts/PostLikeUnLink";
+import PostSaveUnSave from "./posts/PostSaveUnSave";
+
 interface DataItem {
   id: number;
   userId?: number;
@@ -77,10 +81,23 @@ export const HoverEffect = ({
               <CardBody body={item.body} />
             )}
             <CardTitle>{item.title}</CardTitle>
-
-
-            <SaveorUnSave itemId={item.id} title={item.title} />
-            <LikeButton itemId={item.id} title={item.title}  />
+                
+                {item.body?(
+                  <>
+                  <PicLikeorUnLike itemId={item.id} title={item.title} />
+                  <PostSaveUnSave itemId={item.id} title={item.title} />
+                  
+                    </>
+                  
+                )
+                :(
+                  <>
+                  <SaveorUnSave itemId={item.id} title={item.title} />
+                  <LikeButton itemId={item.id} title={item.title}  />
+                  </>
+                  
+                )}
+           
           </Card>
         </div>
       ))}
