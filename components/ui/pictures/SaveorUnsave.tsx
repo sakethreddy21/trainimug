@@ -5,6 +5,10 @@ import { Button } from '../button';
 import { deleteSaved, createSaved } from '../../../app/reduxservices/Imagestore';
 import { selectSavedData } from '../../../app/reduxservices/Imagestore';
 import { useState } from 'react';
+import unsave from "@/public/iconsblue.png"
+import save from "@/public/savewhite.svg"
+import Image from 'next/image';
+
 
 interface props {
   itemId: number;
@@ -30,7 +34,11 @@ const SaveorUnSave =({ itemId,title}:props) => {
   return (
     <div>
       <Button onClick={(e) => isSaved ? onDeleteSavedClick(itemId) : onSaveClick(itemId, title)}>
-        {isSaved ? 'Unsave' : 'save'}
+        {isSaved ? <Image src={unsave}
+      width={30} height={30} alt='image'/>
+      
+      : <Image src={save} className='fill-white ' 
+      width={30} height={30} alt='image'/>}
       </Button>
     </div>
   );

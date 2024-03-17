@@ -3,6 +3,10 @@ import { RootState } from '../../../app/store';
 import { Button } from '../button';
 import { unSavePost, savePost, isPostSaved , selectSavedPosts} from '@/app/reduxservices/Postsstore';
 import { useState } from 'react';
+import unsave from "@/public/iconsblue.png"
+import save from "@/public/savewhite.svg"
+import Image from 'next/image';
+
 
 interface props {
   itemId: number;
@@ -27,7 +31,11 @@ const PostSaveUnSave = ({ itemId, title }: props) => {
 
   return (
     <Button onClick={(e) => isSaved ? onDeleteSavedClick(itemId) : onSaveClick(itemId, title)}>
-      {isSaved ? 'Unsave' : 'save'}
+      {isSaved ? <Image src={unsave}
+      width={30} height={30} alt='image'/>
+      
+      : <Image src={save} className='fill-white ' 
+      width={30} height={30} alt='image'/>}
     </Button>
   );
 

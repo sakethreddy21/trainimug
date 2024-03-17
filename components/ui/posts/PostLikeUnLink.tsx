@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 import { unLikePost, likePost } from '@/app/reduxservices/Postsstore';
 import { selectAllPosts } from '@/app/reduxservices/Postsstore';
 import { useState } from 'react';
+import heart from '@/public/heart.png';
+import notheart from '@/public/whiteheart.jpeg';
+import Image from 'next/image';
 
 interface props {
   itemId: number;
@@ -31,7 +34,12 @@ const PostLikeorUnLike = ({ itemId, title }: props) => {
 
   return (
     <Button onClick={(e) => isLiked ? onDeleteLikedClick(itemId) : onLikeClick(itemId, title)}>
-      {isLiked ? 'Unlike' : 'like'}
+      {isLiked ? 
+      <Image src={heart}
+      width={30} height={30} alt='image'/>
+      
+      : <Image src={notheart} className='fill-white ' 
+      width={30} height={30} alt='image'/>}
     </Button>
   );
 

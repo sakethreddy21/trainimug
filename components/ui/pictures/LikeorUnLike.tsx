@@ -6,6 +6,10 @@ import { useDispatch } from 'react-redux';
 import { deleteLiked, createLiked, createSaved } from '../../../app/reduxservices/Imagestore';
 import { selectLikedData } from '../../../app/reduxservices/Imagestore';
 import { useState } from 'react';
+import heart from '@/public/heart.png';
+import notheart from '@/public/whiteheart.jpeg';
+import Image from 'next/image';
+
 
 interface props {
   itemId: number;
@@ -34,7 +38,11 @@ const LikeButton =({ itemId,title }:props) => {
 
   return (
     <Button onClick={(e) => isLiked ? onDeleteLikedClick(itemId) : onLikeClick(itemId, title)}>
-      {isLiked ? 'Unlike' : 'like'}
+      {isLiked ?<Image src={heart}
+      width={30} height={30} alt='image'/>
+      
+      : <Image src={notheart} className='fill-white ' 
+      width={30} height={30} alt='image'/>}
     </Button>
   );
 };
