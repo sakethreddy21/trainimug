@@ -13,7 +13,7 @@ interface props {
   title: string;
 }
 
-const PicLikeorUnLike = ({ itemId, title }: props) => {
+const PostLikeorUnLike = ({ itemId, title }: props) => {
 
   const dispatch = useDispatch();
   const likeddata = useSelector(selectAllPosts);
@@ -36,4 +36,4 @@ const PicLikeorUnLike = ({ itemId, title }: props) => {
   );
 
 }
-export default PicLikeorUnLike;
+export default PostLikeorUnLike;

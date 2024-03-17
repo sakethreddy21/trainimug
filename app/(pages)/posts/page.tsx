@@ -2,28 +2,26 @@
 
 "use client";
 import axios from "axios";
-import { Button } from "@/components/ui/button"
+
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
+  
   CardHeader,
-  CardTitle,
+ 
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import {useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectAllPosts } from "@/app/reduxservices/Postsstore";
 
 import ClientPagination from "@/components/client-pagination";
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 
 
 interface DataItem {
@@ -45,8 +43,8 @@ interface LikedSavedItem {
 
 const page=()=> {
 
-
-  const [postapidata, setPostApidata] = useState<DataItem>();
+  
+  const [postapidata, setPostApidata] = useState<DataItem[]>();
   const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
   const [wholeLikedSavedData, setwholeLikedSavedData] = useState<LikedSavedItem[]>([]);
 
@@ -77,16 +75,40 @@ const page=()=> {
     setwholeLikedSavedData(filteredData);
   }, [postapidata, LikedSavedData]);
 
-  
 
+  const [activeTab, setActiveTab] = useState('pictures');
+
+  const openTab = (tabName: SetStateAction<string>) => {
+    setActiveTab(tabName);
+  };
   
   return (
     <div className="flex justify-center items-center w-[1200px] ml-20">
     <Tabs defaultValue="pictures" className="flex flex-col items-center justify-center ">
       <TabsList className="grid w-full grid-cols-2">
         
-        <TabsTrigger value="pictures">Posts</TabsTrigger>
-        <TabsTrigger value="liked_pictures">liked_Posts</TabsTrigger>
+        
+       
+        <TabsTrigger className="w-230"  value="pictures"
+        >
+          
+           <div onClick={()=>openTab('pictures')} className={`flex justify-center items-center w-full h-10 ml-64 rounded-xl ${
+        activeTab === "pictures" ?  'bg-white text-black':'bg-black text-white'
+      }`} 
+      >Posts</div>
+      </TabsTrigger>
+      
+
+<TabsTrigger  value="liked_pictures"  >
+<div onClick={()=>openTab('liked_pictures')} className={`w-full h-10 flex justify-center items-center ml-5 rounded-xl ${activeTab === "liked_pictures" ?  'bg-white text-black':'bg-black text-white'
+      }`} >
+  liked_Posts
+  </div>
+      </TabsTrigger>
+      
+      
+
+        
       </TabsList>
       <TabsContent value="pictures">
         <Card>
@@ -112,7 +134,7 @@ const page=()=> {
           <CardContent className="space-y-2">
             <div className="space-y-1">
             <div className="flex flex-col items-center justify-center ">
-              <span className="text-4xl font-bold mb-6">Photos</span>
+              <span className="text-4xl font-bold mb-6">Liked Posts</span>
               {wholeLikedSavedData.length === 0 ? 
          <span className="text-4xl font-bold mb-6">No liked photos</span> : <ClientPagination data={wholeLikedSavedData} />}
             </div>

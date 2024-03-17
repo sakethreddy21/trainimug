@@ -17,7 +17,7 @@ import ClientPagination from "@/components/client-pagination";
 
 import {selectSavedPosts, unSavePost} from "@/app/reduxservices/Postsstore";
 import { selectLikedsSaved ,selectSavedData, deleteSaved} from "@/app/reduxservices/Imagestore";
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 
 interface DataItem {
   
@@ -96,7 +96,11 @@ const [wholepostSavedData, setwholepostSavedData] = useState<SavedItem[]>([]);
     }) : [];
     setwholepostSavedData(filteredData);
   }, [postapidata, savedposts]);
+  const [activeTab, setActiveTab] = useState('pictures');
 
+  const openTab = (tabName: SetStateAction<string>) => {
+    setActiveTab(tabName);
+  };
 
 
   return (
@@ -104,8 +108,19 @@ const [wholepostSavedData, setwholepostSavedData] = useState<SavedItem[]>([]);
     <Tabs defaultValue="pictures" className="flex flex-col items-center justify-center ">
       <TabsList className="grid w-full grid-cols-2">
         
-        <TabsTrigger value="pictures">Saved Photos</TabsTrigger>
-        <TabsTrigger value="liked_pictures">Saved Posts</TabsTrigger>
+      
+        <TabsTrigger className="w-230"  value="pictures"
+        ><div onClick={()=>openTab('pictures')} className={`flex justify-center items-center w-full h-10 ml-64 rounded-xl ${
+        activeTab === "pictures" ?  'bg-white text-black':'bg-black text-white'
+      }`} >Pictures</div></TabsTrigger>
+      
+
+<TabsTrigger  value="Posts" className=" flex "><div onClick={()=>openTab('Posts')} className={`w-full h-10 flex justify-center items-center ml-5 rounded-xl ${activeTab === "Posts" ?  'bg-white text-black':'bg-black text-white'
+      }`} >Posts
+      </div>
+      </TabsTrigger>
+      
+      
       </TabsList>
       <TabsContent value="pictures">
         <Card>
@@ -124,7 +139,7 @@ const [wholepostSavedData, setwholepostSavedData] = useState<SavedItem[]>([]);
           </CardContent>
         </Card>
       </TabsContent>
-      <TabsContent value="liked_pictures">
+      <TabsContent value="Posts">
         <Card>
           <CardHeader>
            

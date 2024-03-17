@@ -22,14 +22,8 @@ export function PaginationSection({
   setCurrentPage: Function,
   currentItems: Array<any> // Provide a type argument for the Array type
 }) {
-  const [pagesToShow, setPagesToShow] = useState(5);
+  const [pagesToShow, setPagesToShow] = useState(10);
 
-  useEffect(() => {
-    // Redirect to page 1 if there are no items to show
-    if (currentItems.length <20 ) {
-      setPagesToShow(1);
-    }
-  }, [currentItems]);
   
   
    // Number of pages to show in the pagination bar

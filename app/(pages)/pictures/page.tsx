@@ -18,7 +18,7 @@ import { selectLikedsSaved, deleteLiked, createLiked } from "../../reduxservices
 
 
 import ClientPagination from "@/components/client-pagination";
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 
 interface DataItem {
   albumId: number;
@@ -83,7 +83,11 @@ useEffect(() => {
   }, [apiData, LikedSavedData]);
 
   
-  
+  const [activeTab, setActiveTab] = useState('pictures');
+
+  const openTab = (tabName: SetStateAction<string>) => {
+    setActiveTab(tabName);
+  };
   //create a function to save the liked data
   
   return (
@@ -91,8 +95,19 @@ useEffect(() => {
     <Tabs defaultValue="pictures" className="flex flex-col items-center justify-center ">
       <TabsList className="grid w-full grid-cols-2">
         
-        <TabsTrigger value="pictures">pictures</TabsTrigger>
-        <TabsTrigger value="liked_pictures">liked_pictures</TabsTrigger>
+      
+        <TabsTrigger className="w-230" value="pictures"
+        ><div onClick={()=>openTab('pictures')} className={`flex justify-center items-center w-full h-10 ml-64 rounded-xl ${
+        activeTab === "pictures" ?  'bg-white text-black':'bg-black text-white'
+      }`} >Posts </div></TabsTrigger>
+     
+
+<TabsTrigger value="liked_pictures" ><div onClick={()=>openTab('liked_pictures')} className={`w-full h-10 flex justify-center items-center ml-5 rounded-xl ${activeTab === "liked_pictures" ?  'bg-white text-black':'bg-black text-white'
+      }`} >liked_Pictures
+      
+       </div></TabsTrigger>
+      
+     
       </TabsList>
       <TabsContent value="pictures">
                 <Card>

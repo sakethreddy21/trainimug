@@ -2,10 +2,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Button } from "./button";
-import {
-  CommandInput,
-} from "@/components/ui/command"
+
 
 import LikeButton from "./pictures/LikeorUnLike";
 import SaveorUnSave from "./pictures/SaveorUnsave";
@@ -41,7 +38,7 @@ export const HoverEffect = ({ items, className }: Props) => {
         placeholder="Search by title..."
         value={searchQuery}
         onChange={e => setSearchQuery(e.target.value)}
-        className="px-4 py-2 border border-gray-300 rounded-md mb-4 text-black"
+        className="px-4 py-2 border border-gray-300 rounded-3xl mb-4 text-black"
       />
       <div className="flex flex-wrap justify-center p-2">
         {filteredItems.map((item, idx) => (
